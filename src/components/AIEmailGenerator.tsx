@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Company } from '../types';
-import { Bot, Copy, Send, Loader, Sparkles, X, RefreshCw, Building, User, Briefcase, MapPin } from 'lucide-react';
+import { Copy, Send, Loader, Sparkles, X, RefreshCw, Building, User, Briefcase, MapPin } from 'lucide-react';
 import * as webllm from "@mlc-ai/web-llm";
 
 interface AIEmailGeneratorProps {
@@ -165,12 +165,10 @@ const AIEmailGenerator: React.FC<AIEmailGeneratorProps> = ({ company, onClose })
   const [isCopied, setIsCopied] = useState(false);
   const [isEmailCopied, setIsEmailCopied] = useState(false);
   const [progressMessage, setProgressMessage] = useState<string>('');
-  const [isRealAI, setIsRealAI] = useState<boolean>(false);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
     setProgressMessage('🚀 Starting AI generation...');
-    setIsRealAI(false);
     
     try {
       const email = await generateRealAIEmail(company, (message) => {
@@ -179,7 +177,6 @@ const AIEmailGenerator: React.FC<AIEmailGeneratorProps> = ({ company, onClose })
       
       setGeneratedEmail(email);
       setEditableEmail(email);
-      setIsRealAI(true); // Successfully used real AI
     } catch (error) {
       console.error('Generation failed:', error);
       // Fallback to template system
@@ -187,7 +184,6 @@ const AIEmailGenerator: React.FC<AIEmailGeneratorProps> = ({ company, onClose })
       const email = generateFallbackEmail(company);
       setGeneratedEmail(email);
       setEditableEmail(email);
-      setIsRealAI(false);
     } finally {
       setIsGenerating(false);
       setProgressMessage('');

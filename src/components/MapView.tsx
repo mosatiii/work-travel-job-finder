@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { LatLngExpression, Icon, DivIcon } from 'leaflet';
+import { LatLngExpression, DivIcon } from 'leaflet';
 import { Company } from '../types';
 import { 
-  Mail, Phone, MapPin, User, Check, Building, Star, ExternalLink,
+  Mail, Phone, MapPin, User, Check, Building, Star,
   UtensilsCrossed, Camera, Tractor, ShoppingBag, HardHat, 
   Truck, Music, GraduationCap, Heart, Anchor, Mountain,
   Hammer, Trophy, Coffee, Trees, Briefcase, Home
@@ -17,25 +17,7 @@ interface MapViewProps {
   onContactToggle: (companyId: string) => void;
 }
 
-// Industry icons mapping (same as FilterPanel)
-const industryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  'Hospitality': UtensilsCrossed,
-  'Tourism': Camera,
-  'Agriculture': Tractor,
-  'Retail': ShoppingBag,
-  'Construction': HardHat,
-  'Transportation': Truck,
-  'Entertainment': Music,
-  'Education': GraduationCap,
-  'Health & Wellness': Heart,
-  'Marine Services': Anchor,
-  'Adventure Tourism': Mountain,
-  'Mining & Resources': Hammer,
-  'Sports & Recreation': Trophy,
-  'Food & Beverage': Coffee,
-  'Wildlife & Conservation': Trees,
-  'Retail & Tourism': Building
-};
+
 
 // Helper function to get SVG string for industry icons
 const getIconSvg = (industry: string, color: string = 'white') => {

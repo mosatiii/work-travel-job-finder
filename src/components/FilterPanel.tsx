@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  Search, X, Filter, MapPin, Briefcase, TrendingUp,
+  Search, X, MapPin, Briefcase,
   UtensilsCrossed, Camera, Tractor, ShoppingBag, HardHat, 
   Truck, Music, GraduationCap, Heart, Anchor, Mountain,
   Hammer, Trophy, Coffee, Trees, Building, ChevronDown, ChevronUp
@@ -10,8 +10,6 @@ import { Filters, AUSTRALIAN_STATES, INDUSTRIES } from '../types';
 interface FilterPanelProps {
   filters: Filters;
   onFilterChange: (filters: Partial<Filters>) => void;
-  onClearFilters: () => void;
-  resultCount: number;
 }
 
 // Industry icons mapping
@@ -60,9 +58,7 @@ const stateFlags: Record<string, string> = {
 
 const FilterPanel: React.FC<FilterPanelProps> = ({ 
   filters, 
-  onFilterChange, 
-  onClearFilters, 
-  resultCount 
+  onFilterChange
 }) => {
   const [statesCollapsed, setStatesCollapsed] = React.useState(true);
   const [industriesCollapsed, setIndustriesCollapsed] = React.useState(true);
@@ -80,8 +76,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       : [...filters.industries, industry];
     onFilterChange({ industries: newIndustries });
   };
-
-  const hasActiveFilters = filters.states.length > 0 || filters.industries.length > 0 || filters.searchTerm;
 
   return (
     <div className="bg-white border border-gray-200 shadow-sm flex-shrink-0 rounded-2xl mx-4 mt-4">

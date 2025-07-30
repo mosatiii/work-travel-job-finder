@@ -1,10 +1,10 @@
 import React from 'react';
 import { Company } from '../types';
 import { 
-  Mail, Phone, MapPin, User, Check, Building, Clock, ExternalLink, Star,
+  Mail, Phone, MapPin, User, Check, Building, Star,
   UtensilsCrossed, Camera, Tractor, ShoppingBag, HardHat, 
   Truck, Music, GraduationCap, Heart, Anchor, Mountain,
-  Hammer, Trophy, Coffee, Trees, Briefcase, Filter, Bot, ChevronLeft, ChevronRight, Sparkles
+  Hammer, Trophy, Coffee, Trees, Briefcase, Filter, ChevronLeft, ChevronRight, Sparkles
 } from 'lucide-react';
 import AIEmailGenerator from './AIEmailGenerator';
 

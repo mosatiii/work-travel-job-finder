@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Briefcase, Compass, Globe } from 'lucide-react';
+import { Briefcase, Compass } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (

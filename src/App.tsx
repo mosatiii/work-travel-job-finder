@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Company, Filters, AUSTRALIAN_STATES, INDUSTRIES } from './types';
+import { useState, useMemo } from 'react';
+import { Company, Filters } from './types';
 import JobList from './components/JobList';
 import MapView from './components/MapView';
 import FilterPanel from './components/FilterPanel';
@@ -84,8 +84,6 @@ function App() {
           <FilterPanel
             filters={filters}
             onFilterChange={handleFilterChange}
-            onClearFilters={clearFilters}
-            resultCount={filteredCompanies.length}
           />
           
           <JobList
