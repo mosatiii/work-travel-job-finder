@@ -66,14 +66,6 @@ function App() {
     setFilters(prev => ({ ...prev, ...newFilters }));
   };
 
-  const clearFilters = () => {
-    setFilters({
-      states: [],
-      industries: [],
-      searchTerm: ''
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">
       <Header />

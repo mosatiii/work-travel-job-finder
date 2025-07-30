@@ -3,10 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { LatLngExpression, DivIcon } from 'leaflet';
 import { Company } from '../types';
 import { 
-  Mail, Phone, MapPin, User, Check, Building, Star,
-  UtensilsCrossed, Camera, Tractor, ShoppingBag, HardHat, 
-  Truck, Music, GraduationCap, Heart, Anchor, Mountain,
-  Hammer, Trophy, Coffee, Trees, Briefcase, Home
+  Mail, Phone, MapPin, User, Check, Star,
+  Briefcase, Home
 } from 'lucide-react';
 
 interface MapViewProps {
