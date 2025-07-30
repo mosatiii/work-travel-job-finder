@@ -78,7 +78,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   };
 
   return (
-    <div className="bg-white border border-gray-200 shadow-sm flex-shrink-0 rounded-2xl mx-4 mt-4">
+    <div className="bg-white border border-gray-200 shadow-sm flex-shrink-0 rounded-2xl mx-2 sm:mx-4 mt-4">
       <div className="p-3 space-y-3">
         {/* Search Bar */}
         <div className="relative">
@@ -102,9 +102,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           )}
         </div>
 
-
-
-                {/* State Filters */}
+        {/* State Filters */}
         <div className="space-y-1">
           <button
             onClick={() => setStatesCollapsed(!statesCollapsed)}
@@ -129,7 +127,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                   className="flex items-center space-x-1 px-1.5 py-0.5 text-xs font-medium text-gray-500 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-md transition-colors duration-200 ml-2"
                 >
                   <X className="w-2.5 h-2.5" />
-                  <span>Clear</span>
+                  <span className="hidden sm:inline">Clear</span>
                 </button>
               )}
             </div>
@@ -189,7 +187,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                   className="flex items-center space-x-1 px-1.5 py-0.5 text-xs font-medium text-gray-500 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-md transition-colors duration-200 ml-2"
                 >
                   <X className="w-2.5 h-2.5" />
-                  <span>Clear</span>
+                  <span className="hidden sm:inline">Clear</span>
                 </button>
               )}
             </div>
@@ -221,7 +219,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                     }`}>
                       <IconComponent className={`w-2 h-2 ${isSelected ? 'text-white' : 'text-purple-600'}`} />
                     </div>
-                    <span>
+                    <span className="truncate">
                       {industry.length > 12 ? industry.split(' ')[0] : industry}
                     </span>
                   </button>

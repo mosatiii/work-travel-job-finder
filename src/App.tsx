@@ -70,9 +70,9 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">
       <Header />
       
-      <div className="flex h-[calc(100vh-3rem)]">
+      <div className="flex flex-col lg:flex-row h-[calc(100vh-3rem)]">
         {/* Left Panel - Job List */}
-        <div className="w-1/2 flex flex-col">
+        <div className="w-full lg:w-1/2 flex flex-col">
           <FilterPanel
             filters={filters}
             onFilterChange={handleFilterChange}
@@ -88,7 +88,7 @@ function App() {
         </div>
 
         {/* Right Panel - Map */}
-        <div className="w-1/2 bg-gradient-to-br from-indigo-50 to-purple-50">
+        <div className="w-full lg:w-1/2 bg-gradient-to-br from-indigo-50 to-purple-50 min-h-[400px] lg:min-h-0">
           <MapView
             companies={filteredCompanies}
             selectedCompany={selectedCompany}

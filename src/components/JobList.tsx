@@ -4,7 +4,7 @@ import {
   Mail, Phone, MapPin, User, Check, Building, Star,
   UtensilsCrossed, Camera, Tractor, ShoppingBag, HardHat, 
   Truck, Music, GraduationCap, Heart, Anchor, Mountain,
-  Hammer, Trophy, Coffee, Trees, Briefcase, Filter, ChevronLeft, ChevronRight, Sparkles
+  Hammer, Trophy, Coffee, Trees, Briefcase, Filter, ChevronLeft, ChevronRight, Sparkles, ChevronUp
 } from 'lucide-react';
 import AIEmailGenerator from './AIEmailGenerator';
 
@@ -90,6 +90,8 @@ const JobList: React.FC<JobListProps> = ({
   const [aiGeneratorCompany, setAiGeneratorCompany] = React.useState<Company | null>(null);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [itemsPerPage] = React.useState(12); // 12 items per page for good UX
+  const [showScrollToTop, setShowScrollToTop] = React.useState(false);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   // Filter companies based on the toggle state
   const filteredCompanies = showContactedOnly 
@@ -106,6 +108,32 @@ const JobList: React.FC<JobListProps> = ({
   React.useEffect(() => {
     setCurrentPage(1);
   }, [showContactedOnly, companies]);
+
+  // Handle scroll to show/hide scroll-to-top button
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (scrollContainerRef.current) {
+        const scrollTop = scrollContainerRef.current.scrollTop;
+        setShowScrollToTop(scrollTop > 300); // Show button after scrolling 300px
+      }
+    };
+
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll);
+      return () => scrollContainer.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   // Handle empty states
   if (filteredCompanies.length === 0) {
@@ -149,7 +177,7 @@ const JobList: React.FC<JobListProps> = ({
   }
 
   return (
-    <div className="flex-1 overflow-y-auto bg-white rounded-2xl shadow-sm border border-gray-200 mx-4 mt-4">
+    <div className="flex-1 overflow-y-auto bg-white rounded-2xl shadow-sm border border-gray-200 mx-2 sm:mx-4 mt-4" ref={scrollContainerRef}>
       {/* Filter header */}
       <div className="sticky top-0 bg-white rounded-t-2xl border-b border-gray-100 p-3 z-10">
         <div className="flex items-center justify-between">
@@ -165,20 +193,21 @@ const JobList: React.FC<JobListProps> = ({
           </div>
           <button
             onClick={() => setShowContactedOnly(!showContactedOnly)}
-            className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
+            className={`inline-flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
               showContactedOnly 
                 ? 'bg-green-100 text-green-700 border border-green-200' 
                 : 'bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200'
             }`}
           >
             <Filter className="w-3 h-3" />
-            <span>{showContactedOnly ? 'Show All' : 'Contacted Only'}</span>
+            <span className="hidden sm:inline">{showContactedOnly ? 'Show All' : 'Contacted Only'}</span>
+            <span className="sm:hidden">{showContactedOnly ? 'All' : 'Contacted'}</span>
             {showContactedOnly && <Check className="w-3 h-3" />}
           </button>
         </div>
       </div>
 
-      <div className="p-3 space-y-2">
+      <div className="p-2 sm:p-3 space-y-2">
         {currentCompanies.map(company => {
           const isContacted = contactedCompanies.has(company.companyId);
           const isSelected = selectedCompany?.companyId === company.companyId;
@@ -198,46 +227,46 @@ const JobList: React.FC<JobListProps> = ({
             >
               {/* Status indicator */}
               {isContacted && (
-                <div className="absolute top-3 right-3 z-10">
-                  <div className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center space-x-1">
+                <div className="absolute top-2 sm:top-3 right-2 sm:right-3 z-10">
+                  <div className="bg-green-500 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-semibold flex items-center space-x-1">
                     <Check className="w-2.5 h-2.5" />
-                    <span>Contacted</span>
+                    <span className="hidden sm:inline">Contacted</span>
                   </div>
                 </div>
               )}
 
-              <div className="p-4">
+              <div className="p-3 sm:p-4">
                 {/* Header with logo and basic info */}
                 <div className="flex items-start space-x-3 mb-3">
                   {/* Company logo placeholder */}
-                  <div className={`w-10 h-10 rounded-lg ${companyColor} flex items-center justify-center text-white font-bold text-sm shadow-md flex-shrink-0`}>
+                  <div className={`w-8 sm:w-10 h-8 sm:h-10 rounded-lg ${companyColor} flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-md flex-shrink-0`}>
                     {companyInitials}
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors truncate">
                       {company.companyName}
                     </h3>
                     
-                    <div className="flex items-center space-x-2 mb-2">
-                      <span className="inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-2">
+                      <span className="inline-flex items-center space-x-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
                         <span className="text-xs">{stateFlags[company.state] || '🇦🇺'}</span>
                         <span>{company.state}</span>
                       </span>
-                      <span className="inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                      <span className="inline-flex items-center space-x-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                         <IndustryIcon className="w-2.5 h-2.5" />
-                        <span>{company.industry}</span>
+                        <span className="truncate max-w-[100px] sm:max-w-none">{company.industry}</span>
                       </span>
                     </div>
                     
                     {/* Contact information - inline */}
                     <div className="text-xs text-gray-600 space-y-1">
                       <div className="flex items-center">
-                        <User className="w-3 h-3 mr-2 text-gray-400" />
-                        <span>{company.firstName} {company.lastName}</span>
+                        <User className="w-3 h-3 mr-2 text-gray-400 flex-shrink-0" />
+                        <span className="truncate">{company.firstName} {company.lastName}</span>
                       </div>
                       <div className="flex items-center">
-                        <MapPin className="w-3 h-3 mr-2 text-gray-400" />
+                        <MapPin className="w-3 h-3 mr-2 text-gray-400 flex-shrink-0" />
                         <span className="truncate">{company.address}</span>
                       </div>
                     </div>
@@ -245,24 +274,24 @@ const JobList: React.FC<JobListProps> = ({
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                  <div className="flex space-x-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-3 border-t border-gray-100 space-y-2 sm:space-y-0">
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     <a
                       href={`mailto:${company.email}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center px-3 py-1.5 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 transition-colors duration-200"
+                      className="inline-flex items-center px-2 sm:px-3 py-1.5 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 transition-colors duration-200 flex-1 sm:flex-none justify-center"
                     >
                       <Mail className="w-3 h-3 mr-1" />
-                      Email
+                      <span>Email</span>
                     </a>
                     
                     <a
                       href={`tel:${company.phoneNumber}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center px-3 py-1.5 bg-white text-gray-700 text-xs font-medium rounded-md border border-gray-300 hover:bg-gray-50 transition-colors duration-200"
+                      className="inline-flex items-center px-2 sm:px-3 py-1.5 bg-white text-gray-700 text-xs font-medium rounded-md border border-gray-300 hover:bg-gray-50 transition-colors duration-200 flex-1 sm:flex-none justify-center"
                     >
                       <Phone className="w-3 h-3 mr-1" />
-                      Call
+                      <span>Call</span>
                     </a>
                     
                     <button
@@ -270,10 +299,11 @@ const JobList: React.FC<JobListProps> = ({
                         e.stopPropagation();
                         setAiGeneratorCompany(company);
                       }}
-                      className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-medium rounded-md hover:from-purple-700 hover:to-indigo-700 transition-all duration-200"
+                      className="inline-flex items-center px-2 sm:px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-medium rounded-md hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 flex-1 sm:flex-none justify-center"
                     >
                       <Sparkles className="w-3 h-3 mr-1" />
-                      AI Email
+                      <span className="hidden sm:inline">AI Email</span>
+                      <span className="sm:hidden">AI</span>
                     </button>
                   </div>
 
@@ -282,7 +312,7 @@ const JobList: React.FC<JobListProps> = ({
                       e.stopPropagation();
                       onContactToggle(company.companyId);
                     }}
-                    className={`inline-flex items-center space-x-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                    className={`inline-flex items-center space-x-1 px-2 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 justify-center ${
                       isContacted 
                         ? 'bg-green-100 text-green-700 hover:bg-green-200 border border-green-200' 
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
@@ -291,12 +321,12 @@ const JobList: React.FC<JobListProps> = ({
                     {isContacted ? (
                       <>
                         <Check className="w-3 h-3" />
-                        <span>Contacted</span>
+                        <span className="hidden sm:inline">Contacted</span>
                       </>
                     ) : (
                       <>
                         <Star className="w-3 h-3" />
-                        <span>Mark</span>
+                        <span className="hidden sm:inline">Mark</span>
                       </>
                     )}
                   </button>
@@ -312,20 +342,20 @@ const JobList: React.FC<JobListProps> = ({
       
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4">
+        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2">
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                   currentPage === 1
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <ChevronLeft className="w-4 h-4 mr-1" />
-                Previous
+                <ChevronLeft className="w-4 h-4 sm:mr-1" />
+                <span className="hidden sm:inline">Previous</span>
               </button>
               
               <div className="flex items-center space-x-1">
@@ -345,7 +375,7 @@ const JobList: React.FC<JobListProps> = ({
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`w-8 h-8 text-sm font-medium rounded-lg transition-colors ${
+                      className={`w-6 sm:w-8 h-6 sm:h-8 text-xs sm:text-sm font-medium rounded-lg transition-colors ${
                         currentPage === pageNum
                           ? 'bg-indigo-600 text-white'
                           : 'text-gray-700 hover:bg-gray-100'
@@ -358,10 +388,10 @@ const JobList: React.FC<JobListProps> = ({
                 
                 {totalPages > 5 && currentPage < totalPages - 2 && (
                   <>
-                    <span className="text-gray-400">...</span>
+                    <span className="text-gray-400 text-xs">...</span>
                     <button
                       onClick={() => setCurrentPage(totalPages)}
-                      className="w-8 h-8 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                      className="w-6 sm:w-8 h-6 sm:h-8 text-xs sm:text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       {totalPages}
                     </button>
@@ -372,21 +402,34 @@ const JobList: React.FC<JobListProps> = ({
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                   currentPage === totalPages
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                Next
-                <ChevronRight className="w-4 h-4 ml-1" />
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight className="w-4 h-4 sm:ml-1" />
               </button>
             </div>
             
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-gray-500 hidden sm:block">
               Page {currentPage} of {totalPages}
             </div>
           </div>
+        </div>
+      )}
+      
+      {/* Scroll to Top Button */}
+      {showScrollToTop && (
+        <div className="sticky bottom-16 sm:bottom-20 flex justify-end pr-3 sm:pr-4 pb-2 z-40">
+          <button
+            onClick={scrollToTop}
+            className="w-8 h-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center group"
+            aria-label="Scroll to top"
+          >
+            <ChevronUp className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-200" />
+          </button>
         </div>
       )}
       

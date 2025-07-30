@@ -292,20 +292,20 @@ const MapView: React.FC<MapViewProps> = ({
       </div>
       
       {/* Map legend */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 flex-shrink-0 mx-4 mb-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-3">Map Legend</h4>
-        <div className="flex items-center space-x-6 text-sm">
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-gray-500 rounded-full border-2 border-white shadow-sm"></div>
-            <span className="text-gray-600">Available</span>
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 flex-shrink-0 mx-2 sm:mx-4 mb-4">
+        <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Map Legend</h4>
+        <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm">
+          <div className="flex items-center space-x-1.5 sm:space-x-2">
+            <div className="w-3 sm:w-4 h-3 sm:h-4 bg-gray-500 rounded-full border-2 border-white shadow-sm flex-shrink-0"></div>
+            <span className="text-gray-600 font-medium">Available</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-indigo-600 rounded-full border-2 border-white shadow-sm"></div>
-            <span className="text-gray-600">Selected</span>
+          <div className="flex items-center space-x-1.5 sm:space-x-2">
+            <div className="w-3 sm:w-4 h-3 sm:h-4 bg-indigo-600 rounded-full border-2 border-white shadow-sm flex-shrink-0"></div>
+            <span className="text-gray-600 font-medium">Selected</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
-            <span className="text-gray-600">Contacted</span>
+          <div className="flex items-center space-x-1.5 sm:space-x-2">
+            <div className="w-3 sm:w-4 h-3 sm:h-4 bg-green-500 rounded-full border-2 border-white shadow-sm flex-shrink-0"></div>
+            <span className="text-gray-600 font-medium">Contacted</span>
           </div>
         </div>
       </div>
